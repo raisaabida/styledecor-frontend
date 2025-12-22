@@ -1,7 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
+
 export default function ServiceCard({service}){
+ 
   return (
     <div className="card bg-white shadow-md rounded-lg overflow-hidden">
       <img src={service.image} alt={service.title} className="w-full h-40 object-cover"/>
