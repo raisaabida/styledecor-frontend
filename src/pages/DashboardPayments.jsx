@@ -2,10 +2,12 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 
+
 export default function DashboardPayments() {
   const { user } = useContext(AuthContext);
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
     if (!user?.email) return;
@@ -21,6 +23,7 @@ export default function DashboardPayments() {
   if (loading) {
     return <p className="text-center py-10">Loading payments...</p>;
   }
+
 
   return (
     <div className="max-w-3xl mx-auto p-6">
@@ -54,4 +57,5 @@ export default function DashboardPayments() {
       )}
     </div>
   );
+  
 }
