@@ -48,6 +48,7 @@ export default function Home() {
 
             {/* ACTION BUTTONS */}
             <div className="mt-6 flex flex-wrap gap-4">
+
   <Link
     to="/register"
     className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full font-semibold"
@@ -55,12 +56,14 @@ export default function Home() {
     Get Started
   </Link>
 
+
   <Link
     to="/coverage-map"
     className="px-6 py-3 border-2 border-emerald-600 text-emerald-700 rounded-full font-semibold hover:bg-emerald-50"
   >
     Service Map
   </Link>
+
 </div>
 
             {/* TRUST BADGES */}
@@ -70,6 +73,7 @@ export default function Home() {
               <div>🎉 1k+ Events</div>
             </div>
           </div>
+
 
           {/* SLIDER */}
           <div className="rounded-xl overflow-hidden shadow-xl">
@@ -92,6 +96,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+
 
       {/* HOW IT WORKS */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
