@@ -54,6 +54,7 @@ export default function Login() {
               onChange={(e) => setEmail(e.target.value)}
               required
             />
+
             <input
               type="password"
               placeholder="Password"
@@ -63,10 +64,12 @@ export default function Login() {
               required
             />
 
+
             {error && <p className="text-red-500 text-sm text-center">{error}</p>}
 
             <button className="btn btn-primary w-full">Login</button>
           </form>
+
 
           <p className="text-center text-sm mt-2">
             Don’t have an account?{" "}
