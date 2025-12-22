@@ -1,17 +1,10 @@
-import { useContext } from "react";
+import React from "react";
 import { Navigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
+import { auth } from "../firebase";
 
-export default function PrivateRoute({ children }) {
-  const { user, loading } = useContext(AuthContext);
+const PrivateRoute = ({ children }) => {
+  const user = auth.currentUser;
+  return user ? children : <Navigate to="/login" />;
+};
 
-  if (loading) {
-    return <p className="text-center py-10">Loading...</p>;
-  }
-
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
-
-  return children;
-}
+export default PrivateRoute;

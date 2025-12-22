@@ -1,69 +1,53 @@
 import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase.config";
-import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
+import { auth } from "../firebase";
 
-export default function Register() {
-  const navigate = useNavigate();
+const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    setError("");
-
     try {
-      const cred = await createUserWithEmailAndPassword(auth, email, password);
-      const firebaseToken = await cred.user.getIdToken();
-
-      const res = await fetch("http://localhost:5000/jwt", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ email, firebaseToken }),
-      });
-
-      const data = await res.json();
-      localStorage.setItem("access-token", data.token);
-
-      toast.success("Account created!");
-      navigate("/dashboard");
-
-    } catch (err) {
-      setError(err.message);
-      toast.error(err.message);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      setMessage(`Admin registered: ${userCredential.user.email}`);
+    } catch (error) {
+      console.log(error);
+      setMessage(`Error: ${error.code} - ${error.message}`);
     }
   };
 
   return (
-    <div className="min-h-[70vh] flex items-center justify-center">
-      <div className="card w-full max-w-md bg-white shadow-xl">
-        <div className="card-body">
-          <h2 className="text-2xl font-bold text-center text-teal-600">Register</h2>
-
-          <form onSubmit={handleRegister} className="space-y-3">
-            <input
-              type="email"
-              placeholder="Email"
-              className="input input-bordered w-full"
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              className="input input-bordered w-full"
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-
-            {error && <p className="text-red-500 text-sm text-center">{error}</p>}
-
-            <button className="btn btn-primary w-full">Register</button>
-          </form>
-        </div>
-      </div>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <form
+        onSubmit={handleRegister}
+        className="bg-white p-6 rounded shadow-md w-80 flex flex-col gap-4"
+      >
+        <h2 className="text-2xl font-bold text-center">Register Admin</h2>
+        <input
+          type="email"
+          placeholder="Admin Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="border p-2 rounded"
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="border p-2 rounded"
+          required
+        />
+        <button type="submit" className="bg-blue-500 text-white p-2 rounded">
+          Register
+        </button>
+        {message && <p className="text-center mt-2">{message}</p>}
+      </form>
     </div>
   );
-}
+};
+
+export default Register;

@@ -13,6 +13,7 @@ import ErrorPage from "./pages/ErrorPage"
 import CoverageMap from "./pages/CoverageMap"
 import Register from "./pages/Register"
 import PrivateRoute from "./routes/PrivateRoute"
+import DashboardPayments from "./pages/DashboardPayments"
 
 export default function App() {
   return (
@@ -23,9 +24,38 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/services" element={<Services />} />
           <Route path="/services/:id" element={<ServiceDetails />} />
-          <Route path="/booking" element={<PrivateRoute><Booking /></PrivateRoute>} />
-          <Route path="/payment" element={<PrivateRoute><Payment /></PrivateRoute>} />
-          <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+          <Route
+            path="/booking"
+            element={
+              <PrivateRoute>
+                <Booking />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/payment"
+            element={
+              <PrivateRoute>
+                <Payment />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/dashboard/payments"
+            element={
+              <PrivateRoute>
+                <DashboardPayments />
+              </PrivateRoute>
+            }
+          />
           <Route path="/coverage-map" element={<CoverageMap />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

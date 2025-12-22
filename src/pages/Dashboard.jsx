@@ -1,11 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { auth } from "../firebase.config";
-import { signOut } from "firebase/auth";
+import { signOut, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const user = auth.currentUser;
+  const [user, setUser] = useState(null);
+
+  // ✅ Listen to auth state properly
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      if (!currentUser) {
+        navigate("/login");
+      }
+    });
+
+    return () => unsubscribe();
+  }, [navigate]);
 
   const handleLogout = async () => {
     await signOut(auth);
@@ -31,8 +43,15 @@ export default function Dashboard() {
           )}
 
           <button
+            onClick={() => navigate("/dashboard/payments")}
+            className="btn btn-outline btn-primary"
+          >
+            View Payment History
+          </button>
+
+          <button
             onClick={handleLogout}
-            className="btn btn-outline btn-error mt-4"
+            className="btn btn-error btn-outline"
           >
             Logout
           </button>
