@@ -8,11 +8,11 @@ export default function Services() {
   const [category, setCategory] = useState('all');
   const [loading, setLoading] = useState(true);
 
-  // Fetch services from backend
+ 
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const res = await axios.get('/api/services'); // adjust endpoint if different
+        const res = await axios.get('/api/services'); 
         setServices(res.data);
       } catch (error) {
         console.error('Failed to fetch services:', error);
