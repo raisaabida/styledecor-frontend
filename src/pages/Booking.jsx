@@ -2,6 +2,7 @@ import React from 'react'
 import { useLocation } from 'react-router-dom'
 import toast from 'react-hot-toast'
 
+
 export default function Booking(){
   const { state } = useLocation()
   const service = state?.service || {title:'Sample Service', cost:1000}
@@ -9,6 +10,7 @@ export default function Booking(){
     e.preventDefault()
     toast.success('Booking created (mock). Check dashboard.')
   }
+  
   return (
     <div className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow">
       <h3 className="font-semibold text-xl">Book: {service.title}</h3>
