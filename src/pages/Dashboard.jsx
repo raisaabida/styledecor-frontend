@@ -3,9 +3,11 @@ import { auth } from "../firebase.config";
 import { signOut, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
+
 export default function Dashboard() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+
 
   // ✅ Listen to auth state properly
   useEffect(() => {
@@ -15,6 +17,7 @@ export default function Dashboard() {
         navigate("/login");
       }
     });
+    
 
     return () => unsubscribe();
   }, [navigate]);
