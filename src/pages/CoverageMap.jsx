@@ -11,16 +11,19 @@ export default function CoverageMap() {
         Service Coverage Area
       </h2>
 
+
       <MapContainer
         center={position}
         zoom={12}
         style={{ height: "400px", width: "100%" }}
         className="rounded-lg"
       >
+
         <TileLayer
           attribution='&copy; OpenStreetMap'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+
 
         <Marker position={position}>
           <Popup>StyleDecor Service Available Here</Popup>
