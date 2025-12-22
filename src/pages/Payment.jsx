@@ -4,16 +4,19 @@ import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import toast from "react-hot-toast";
 
+
 export default function Payment() {
   const stripe = useStripe();
   const elements = useElements();
   const { user } = useContext(AuthContext);
+
 
   const handlePayment = async () => {
     const { data } = await axios.post(
       `${import.meta.env.VITE_API_URL}/api/payment/create-intent`,
       { amount: 10 }
     );
+
 
     const card = elements.getElement(CardElement);
 
@@ -25,6 +28,7 @@ export default function Payment() {
         },
       },
     });
+
 
     if (result.paymentIntent.status === "succeeded") {
       await axios.post(
@@ -40,6 +44,7 @@ export default function Payment() {
     }
   };
 
+  
   return (
     <div className="max-w-xl mx-auto bg-white p-6 rounded-lg shadow">
       <h2 className="text-2xl font-bold mb-4">Complete Payment</h2>
