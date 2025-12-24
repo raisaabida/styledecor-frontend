@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../firebase.config";
+import { auth } from "../firebase";
+
 
 
 export const AuthContext = createContext(null);
@@ -17,7 +18,7 @@ export default function AuthProvider({ children }) {
 
     return () => unsubscribe();
   }, []);
-  
+
 
   const value = { user, loading };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

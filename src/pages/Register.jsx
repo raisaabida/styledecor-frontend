@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth } from "../firebase"; // use the single firebase.js
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -18,7 +18,6 @@ const Register = () => {
     }
   };
 
-
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <form
@@ -34,7 +33,6 @@ const Register = () => {
           className="border p-2 rounded"
           required
         />
-
         <input
           type="password"
           placeholder="Password"
@@ -51,6 +49,5 @@ const Register = () => {
     </div>
   );
 };
-
 
 export default Register;

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase.config";
+import { auth } from "../firebase"; // ✅ use the same firebase.js
 import toast from "react-hot-toast";
+
+
 
 export default function Login() {
   const navigate = useNavigate();
@@ -16,21 +18,8 @@ export default function Login() {
 
     try {
       const userCred = await signInWithEmailAndPassword(auth, email, password);
-      const firebaseToken = await userCred.user.getIdToken();
-
-      // send firebase token to backend
-      const res = await fetch("http://localhost:5000/jwt", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ email, firebaseToken }),
-      });
-
-      const data = await res.json();
-      localStorage.setItem("access-token", data.token);
-
       toast.success("Login successful!");
       navigate("/dashboard");
-
     } catch (err) {
       setError("Invalid email or password");
       toast.error("Login failed");
@@ -54,7 +43,6 @@ export default function Login() {
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-
             <input
               type="password"
               placeholder="Password"
@@ -64,12 +52,10 @@ export default function Login() {
               required
             />
 
-
             {error && <p className="text-red-500 text-sm text-center">{error}</p>}
 
             <button className="btn btn-primary w-full">Login</button>
           </form>
-
 
           <p className="text-center text-sm mt-2">
             Don’t have an account?{" "}
