@@ -19,6 +19,9 @@ This is a mock frontend scaffold for the **StyleDecor** project (Smart Home & Ce
    - `npm run dev`
 5. Build:
    - `npm run build`
+  
+## Live link :
+raisa-styledecor.netlify.app
 
 ## Notes
 - This is a frontend scaffold (mock). No backend included.
