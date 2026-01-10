@@ -1,27 +1,15 @@
-import React, { useEffect, useState } from "react";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+import DashboardLayout from "../components/dashboard/DashboardLayout";
+import UserDashboard from "../components/dashboard/UserDashboard";
+import AdminDashboard from "../components/dashboard/AdminDashboard";
+import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
-
-import { signOut, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
-
 export default function Dashboard() {
+  const { user, role } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
-
-
-  // ✅ Listen to auth state properly
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      if (!currentUser) {
-        navigate("/login");
-      }
-    });
-
-
-    return () => unsubscribe();
-  }, [navigate]);
 
   const handleLogout = async () => {
     await signOut(auth);
@@ -29,38 +17,22 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-[60vh] flex items-center justify-center">
-      <div className="card w-full max-w-lg bg-white shadow-xl">
-        <div className="card-body text-center space-y-4">
-          <h2 className="text-2xl font-bold text-teal-600">
-            Dashboard
-          </h2>
+    <div className="max-w-7xl mx-auto px-4 py-8 space-y-4">
+      <h1 className="text-2xl font-bold text-teal-600">Dashboard</h1>
 
-          <p className="text-gray-600">
-            Welcome to StyleDecor 🎨
-          </p>
+      <DashboardLayout role={role}>
+        {(active) =>
+          role === "admin" ? (
+            <AdminDashboard activePage={active} />
+          ) : (
+            <UserDashboard activePage={active} user={user} />
+          )
+        }
+      </DashboardLayout>
 
-          {user && (
-            <p className="text-sm text-gray-500">
-              Logged in as: <strong>{user.email}</strong>
-            </p>
-          )}
-
-          <button
-            onClick={() => navigate("/dashboard/payments")}
-            className="btn btn-outline btn-primary"
-          >
-            View Payment History
-          </button>
-
-          <button
-            onClick={handleLogout}
-            className="btn btn-error btn-outline"
-          >
-            Logout
-          </button>
-        </div>
-      </div>
+      <button onClick={handleLogout} className="btn btn-error btn-outline">
+        Logout
+      </button>
     </div>
   );
 }

@@ -1,11 +1,24 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
-import { auth } from "../firebase";
-
+import { useContext } from "react";
+import { Navigate, useLocation } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 const PrivateRoute = ({ children }) => {
-  const user = auth.currentUser;
-  return user ? children : <Navigate to="/login" />;
+  const { user, loading } = useContext(AuthContext);
+  const location = useLocation();
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-[60vh]">
+        <span className="loading loading-spinner loading-lg text-teal-600"></span>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  return children;
 };
 
 export default PrivateRoute;

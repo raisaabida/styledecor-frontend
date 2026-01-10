@@ -1,53 +1,82 @@
 import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase"; // use the single firebase.js
+import { auth } from "../firebase";
+import { useNavigate, Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
-const Register = () => {
+export default function Register() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleRegister = async (e) => {
     e.preventDefault();
+
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters");
+      return;
+    }
+
+    setLoading(true);
+
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      setMessage(`Admin registered: ${userCredential.user.email}`);
+      await createUserWithEmailAndPassword(auth, email, password);
+      toast.success("Registration successful");
+      navigate("/dashboard");
     } catch (error) {
-      console.log(error);
-      setMessage(`Error: ${error.code} - ${error.message}`);
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <form
-        onSubmit={handleRegister}
-        className="bg-white p-6 rounded shadow-md w-80 flex flex-col gap-4"
-      >
-        <h2 className="text-2xl font-bold text-center">Register Admin</h2>
-        <input
-          type="email"
-          placeholder="Admin Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="border p-2 rounded"
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="border p-2 rounded"
-          required
-        />
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-          Register
-        </button>
-        {message && <p className="text-center mt-2">{message}</p>}
-      </form>
+    <div className="min-h-[70vh] flex items-center justify-center">
+      <div className="card w-full max-w-md bg-white shadow-xl">
+        <div className="card-body space-y-3">
+          <h2 className="text-2xl font-bold text-center text-teal-600">
+            Create an Account
+          </h2>
+
+          <form onSubmit={handleRegister} className="space-y-3">
+            <input
+              type="email"
+              placeholder="Email"
+              className="input input-bordered w-full"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+
+            <input
+              type="password"
+              placeholder="Password"
+              className="input input-bordered w-full"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+
+            <button
+              className="btn btn-primary w-full"
+              disabled={loading}
+            >
+              {loading ? "Creating account..." : "Register"}
+            </button>
+          </form>
+
+          <p className="text-center text-sm">
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              className="text-teal-600 font-semibold"
+            >
+              Login
+            </Link>
+          </p>
+        </div>
+      </div>
     </div>
   );
-};
-
-export default Register;
+}
