@@ -6,6 +6,12 @@ export default function OverviewCards({ role }) {
           { title: "Total Users", value: 340 },
           { title: "Payments", value: "BDT 2.3L" },
         ]
+      : role === "manager"
+      ? [
+          { title: "Managed Events", value: 6 },
+          { title: "Pending Approvals", value: 2 },
+          { title: "Total Revenue", value: "BDT 85K" },
+        ]
       : [
           { title: "My Bookings", value: 3 },
           { title: "Completed Events", value: 1 },

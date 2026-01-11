@@ -3,6 +3,7 @@ import { AuthContext } from "../context/AuthContext";
 import DashboardLayout from "../components/dashboard/DashboardLayout";
 import UserDashboard from "../components/dashboard/UserDashboard";
 import AdminDashboard from "../components/dashboard/AdminDashboard";
+import ManagerDashboard from "../components/dashboard/ManagerDashboard";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
@@ -24,6 +25,8 @@ export default function Dashboard() {
         {(active) =>
           role === "admin" ? (
             <AdminDashboard activePage={active} />
+          ) : role === "manager" ? (
+            <ManagerDashboard activePage={active} />
           ) : (
             <UserDashboard activePage={active} user={user} />
           )
